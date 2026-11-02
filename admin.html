@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-TW"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;國小成績查詢系統&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-slate-100 min-h-screen text-slate-800 font-sans pb-12"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- 頂部導覽列 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header class="bg-indigo-600 text-white shadow-md mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex items-center space-x-3 cursor-pointer" onclick="showPortalSelection()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="text-2xl"&gt;🎓&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-xl font-bold tracking-wide"&gt;國小成績查詢與管理系統&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="navRightBtns" class="flex space-x-2"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="max-w-5xl mx-auto px-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 1. 入口選擇頁面 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="portalSection" class="space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="text-center max-w-xl mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-2xl font-bold text-slate-700"&gt;請選擇您的身分進入系統&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-slate-500 mt-2"&gt;提供學生自主成績查詢與教師後台數據管理&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto pt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 學生入口卡片 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div onclick="switchView('studentLogin')" class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl border border-slate-200 hover:border-indigo-400 transition cursor-pointer flex flex-col items-center text-center group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>👨‍🎓</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-xl font-bold text-slate-800 mb-2"&gt;學生查詢端&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-slate-500 text-sm mb-6"&gt;使用班級座號與西元生日登入，查看個人作業與小考加權成績明細。&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-semibold group-hover:bg-indigo-700 transition"&gt;進入學生登入&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 教師入口卡片 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div onclick="switchView('teacherLogin')" class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl border border-slate-200 hover:border-teal-400 transition cursor-pointer flex flex-col items-center text-center group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>👩‍🏫</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-xl font-bold text-slate-800 mb-2"&gt;教師管理端&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-slate-500 text-sm mb-6"&gt;教師管理登入後台，匯入成績資料表、設定各項作業/小考配分與備註。&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="w-full py-2.5 bg-teal-600 text-white rounded-xl font-semibold group-hover:bg-teal-700 transition"&gt;進入教師登入&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 2. 學生登入頁面 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="studentLoginSection" class="hidden max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="text-center mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="text-4xl inline-block mb-2"&gt;👨‍🎓&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-xl font-bold text-slate-800"&gt;學生成績查詢登入&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;form onsubmit="handleStudentLogin(event)" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-sm font-medium text-slate-700 mb-1"&gt;班級座號&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="stuSeatNo" required placeholder="例如：50120" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-sm font-medium text-slate-700 mb-1"&gt;密碼&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="password" id="stuPassword" required placeholder="請輸入西元生日，例如：20060101" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition"&gt;查詢成績&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="mt-6 pt-4 border-t text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="showPortalSelection()" class="text-sm text-slate-500 hover:text-indigo-600"&gt;← 返回入口選擇&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 3. 教師登入頁面 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="teacherLoginSection" class="hidden max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="text-center mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="text-4xl inline-block mb-2"&gt;👩‍🏫&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-xl font-bold text-slate-800"&gt;教師管理後台登入&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;form onsubmit="handleTeacherLogin(event)" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-sm font-medium text-slate-700 mb-1"&gt;教師帳號&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="teacherAcc" required value="admin" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-400 focus:outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-sm font-medium text-slate-700 mb-1"&gt;管理密碼&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="password" id="teacherPwd" required placeholder="預設密碼：admin123" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-400 focus:outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="submit" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg shadow-md transition"&gt;登入管理後台&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="mt-6 pt-4 border-t text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="showPortalSelection()" class="text-sm text-slate-500 hover:text-teal-600"&gt;← 返回入口選擇&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 4. 學生查詢結果頁面 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="studentDashboard" class="hidden space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h2 class="text-xl font-bold text-slate-800" id="stuWelcomeMsg"&gt;學生成績明細&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-sm text-slate-500"&gt;班級座號：&lt;span id="stuSeatDisplay" class="font-semibold text-indigo-600"&gt;&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="showPortalSelection()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg"&gt;登出查詢&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="subjectCardsContainer" class="space-y-6"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 5. 教師管理介面 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="teacherDashboard" class="hidden space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-4 justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h2 class="text-xl font-bold text-slate-800"&gt;教師後台成績與權重管理&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-sm text-slate-500"&gt;上傳成績資料表並設定各項目類別、配分數字與說明備註&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="loadDemoData()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 text-sm font-medium rounded-lg transition"&gt;⚡ 一鍵載入測試範例資料&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="showPortalSelection()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg"&gt;登出後台&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 設定區域 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid md:grid-cols-2 gap-4 pb-4 border-b"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="block text-sm font-semibold text-slate-700 mb-2"&gt;1. 上傳學生帳密檔 (包含 班級座號、密碼、姓名)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="file" id="userFile" accept=".xlsx, .xls, .csv" onchange="handleUserFileUpload(event)" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="block text-sm font-semibold text-slate-700 mb-2"&gt;2. 上傳成績資料檔 (包含 班級座號 與 各科分數欄位)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="file" id="gradeFile" accept=".xlsx, .xls, .csv" onchange="handleGradeFileUpload(event)" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-md font-bold text-slate-800 mb-3"&gt;成績欄位權重與說明設定&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-xs text-slate-500 mb-4"&gt;輸入任意配分數字，系統會自動在同類別內按比例算出百分比權重 (%)。&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div id="columnSettingsContainer" class="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-slate-400 text-sm italic"&gt;請先載入或上傳成績資料檔以進行設定...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 全域 state</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let usersData = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let gradesData = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let columnConfigs = {}; // { colName: { category: '國語-小考', rawWeight: 10, note: '第一單元' } }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let currentStudent = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 視圖切換機制</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function switchView(viewName) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('portalSection').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('studentLoginSection').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('teacherLoginSection').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('studentDashboard').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('teacherDashboard').classList.add('hidden');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (viewName === 'portal') document.getElementById('portalSection').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (viewName === 'studentLogin') document.getElementById('studentLoginSection').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (viewName === 'teacherLogin') document.getElementById('teacherLoginSection').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (viewName === 'studentDashboard') document.getElementById('studentDashboard').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (viewName === 'teacherDashboard') document.getElementById('teacherDashboard').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showPortalSelection() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>switchView('portal');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 一鍵載入測試資料</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function loadDemoData() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>usersData = [</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ "班級座號": "50120", "密碼": "20060101", "姓名": "林小明" },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ "班級座號": "50121", "密碼": "20060202", "姓名": "張小華" }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>gradesData = [</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ "班級座號": "50120", "國語第一單元小考": 90, "國語第二單元小考": 80, "國語平時作業": 95, "數學第一單元小考": 85, "數學隨堂作業": 90 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ "班級座號": "50121", "國語第一單元小考": 100, "國語第二單元小考": 90, "國語平時作業": 88, "數學第一單元小考": 95, "數學隨堂作業": 92 }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>columnConfigs = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"國語第一單元小考": { category: "國語-小考", rawWeight: 10, note: "第一單元語詞與造句" },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"國語第二單元小考": { category: "國語-小考", rawWeight: 10, note: "第二單元課文理解" },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"國語平時作業": { category: "國語-作業", rawWeight: 20, note: "國語習作 p.1-15" },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"數學第一單元小考": { category: "數學-小考", rawWeight: 15, note: "數線與分數計算" },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"數學隨堂作業": { category: "數學-作業", rawWeight: 15, note: "隨堂演練本" }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderColumnSettings();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>alert("成功載入測試資料！學生帳號：50120，密碼：20060101");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 教師登入處理</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function handleTeacherLogin(e) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const pwd = document.getElementById('teacherPwd').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (pwd === 'admin123' || pwd === 'admin') {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>switchView('teacherDashboard');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (usersData.length === 0) loadDemoData();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('密碼錯誤！(預設密碼為 admin123)');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 學生登入處理</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function handleStudentLogin(e) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const seatNo = document.getElementById('stuSeatNo').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const pwd = document.getElementById('stuPassword').value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (usersData.length === 0) loadDemoData();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const user = usersData.find(u =&gt; String(u['班級座號']) === seatNo &amp;&amp; String(u['密碼']) === pwd);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!user) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('座號或密碼不正確！');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>currentStudent = user;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('stuWelcomeMsg').textContent = `${user['姓名'] || '學生'} 的成績明細`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('stuSeatDisplay').textContent = seatNo;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderStudentDashboard(seatNo);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>switchView('studentDashboard');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 渲染教師欄位設定介面</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderColumnSettings() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const container = document.getElementById('columnSettingsContainer');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (gradesData.length === 0) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const keys = Object.keys(gradesData[0]).filter(k =&gt; k !== '班級座號');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let html = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>keys.forEach(col =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const conf = columnConfigs[col] || { category: '不採計', rawWeight: 10, note: '' };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>html += `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="grid grid-cols-1 md:grid-cols-4 gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="font-semibold text-slate-700 text-sm md:col-span-1"&gt;${col}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select onchange="updateColConfig('${col}', 'category', this.value)" class="w-full text-sm p-2 border rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="不採計" ${conf.category === '不採計' ? 'selected' : ''}&gt;不採計&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="國語-小考" ${conf.category === '國語-小考' ? 'selected' : ''}&gt;國語 - 小考 (佔20%)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="國語-作業" ${conf.category === '國語-作業' ? 'selected' : ''}&gt;國語 - 作業 (佔80%)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="數學-小考" ${conf.category === '數學-小考' ? 'selected' : ''}&gt;數學 - 小考 (佔20%)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="數學-作業" ${conf.category === '數學-作業' ? 'selected' : ''}&gt;數學 - 作業 (佔80%)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" value="${conf.rawWeight}" min="1" placeholder="配分數字 (如10)" onchange="updateColConfig('${col}', 'rawWeight', parseFloat(this.value)|||0)" class="w-full text-sm p-2 border rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="text" value="${conf.note || ''}" placeholder="說明 / 採計備註" onchange="updateColConfig('${col}', 'note', this.value)" class="w-full text-sm p-2 border rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>container.innerHTML = html;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateColConfig(col, field, val) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!columnConfigs[col]) columnConfigs[col] = { category: '不採計', rawWeight: 10, note: '' };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>columnConfigs[col][field] = val;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 渲染學生端成績卡片</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderStudentDashboard(seatNo) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const studentGrades = gradesData.find(g =&gt; String(g['班級座號']) === seatNo) || {};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const container = document.getElementById('subjectCardsContainer');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const subjects = ['國語', '數學'];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let html = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>subjects.forEach(sub =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const quizItems = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const hwItems = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Object.keys(columnConfigs).forEach(col =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const cfg = columnConfigs[col];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (cfg.category === `${sub}-小考`) quizItems.push({ name: col, ...cfg, score: Number(studentGrades[col]) || 0 });</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (cfg.category === `${sub}-作業`) hwItems.push({ name: col, ...cfg, score: Number(studentGrades[col]) || 0 });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 計算小考權重與加權分數</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const quizTotalRaw = quizItems.reduce((acc, item) =&gt; acc + item.rawWeight, 0);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let quizWeightedScoreSum = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>quizItems.forEach(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>item.pct = quizTotalRaw &gt; 0 ? (item.rawWeight / quizTotalRaw) : 0;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>quizWeightedScoreSum += item.score * item.pct;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const finalQuizScore = quizWeightedScoreSum * 0.20;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 計算作業權重與加權分數</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const hwTotalRaw = hwItems.reduce((acc, item) =&gt; acc + item.rawWeight, 0);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let hwWeightedScoreSum = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hwItems.forEach(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>item.pct = hwTotalRaw &gt; 0 ? (item.rawWeight / hwTotalRaw) : 0;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>hwWeightedScoreSum += item.score * item.pct;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const finalHwScore = hwWeightedScoreSum * 0.80;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const totalScore = Math.min(100, finalQuizScore + finalHwScore);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>html += `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-indigo-50/50 p-6 border-b border-slate-100 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;h3 class="text-xl font-bold text-slate-800"&gt;${sub}科&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-xs text-slate-500 block"&gt;科目總分數 (上限 100 分)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-3xl font-extrabold text-indigo-600"&gt;${totalScore.toFixed(1)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-sm font-medium text-slate-600"&gt;分&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="p-6 space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- 小考細項 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4 class="font-bold text-slate-700 mb-3 flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span&gt;📝 小考項目 (佔 20%)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="text-sm text-indigo-600 font-semibold"&gt;小考加權分數 (20%): ${finalQuizScore.toFixed(1)} 分&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${renderTable(quizItems)}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- 作業細項 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4 class="font-bold text-slate-700 mb-3 flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span&gt;📚 作業項目 (佔 80%)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="text-sm text-indigo-600 font-semibold"&gt;作業加權分數 (80%): ${finalHwScore.toFixed(1)} 分&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${renderTable(hwItems)}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>container.innerHTML = html;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderTable(items) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (items.length === 0) return `&lt;p class="text-sm text-slate-400 italic"&gt;尚無相關項目&lt;/p&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let rows = items.map(item =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;tr class="border-b border-slate-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td class="py-3 px-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="font-medium text-slate-800"&gt;${item.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>${item.note ? `&lt;span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded mt-1"&gt;${item.note}&lt;/span&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td class="py-3 px-4 font-semibold text-slate-700"&gt;${item.score} 分&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td class="py-3 px-4 text-slate-600 font-medium"&gt;${(item.pct * 100).toFixed(0)}%&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`).join('');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="overflow-x-auto border border-slate-200 rounded-xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;table class="w-full text-left text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;thead class="bg-slate-50 text-slate-600 border-b"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="py-2.5 px-4 font-semibold"&gt;項目名稱與說明&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="py-2.5 px-4 font-semibold"&gt;原始分數&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="py-2.5 px-4 font-semibold"&gt;加權比重&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;tbody&gt;${rows}&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Excel 檔案處理</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function handleUserFileUpload(e) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const file = e.target.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!file) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>reader.onload = (evt) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const data = new Uint8Array(evt.target.result);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const workbook = XLSX.read(data, { type: 'array' });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>usersData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert("成功匯入學生帳密資料！");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>reader.readAsArrayBuffer(file);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function handleGradeFileUpload(e) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const file = e.target.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!file) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>reader.onload = (evt) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const data = new Uint8Array(evt.target.result);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const workbook = XLSX.read(data, { type: 'array' });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>gradesData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderColumnSettings();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert("成功匯入成績資料！已更新設定欄位。");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>reader.readAsArrayBuffer(file);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
